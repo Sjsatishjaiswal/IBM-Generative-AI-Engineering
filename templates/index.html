@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detection Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        textarea {
+            width: 90%;
+            min-height: 100px;
+            padding: 12px;
+            font-size: 16px;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #response {
+            margin-top: 25px;
+            padding: 15px;
+            background: #eef6ff;
+            border-radius: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Emotion Detection Application</h1>
+
+        <textarea
+            id="textToAnalyze"
+            placeholder="Enter a statement to analyze..."
+        ></textarea>
+
+        <br>
+
+        <button onclick="detectEmotion()">
+            Detect Emotion
+        </button>
+
+        <div id="response"></div>
+    </div>
+
+    <script>
+        function detectEmotion() {
+            const text = document.getElementById("textToAnalyze").value;
+            const responseBox = document.getElementById("response");
+
+            fetch(
+                "/emotionDetector?textToAnalyze="
+                + encodeURIComponent(text)
+            )
+                .then(response => response.text())
+                .then(data => {
+                    responseBox.innerText = data;
+                })
+                .catch(error => {
+                    responseBox.innerText =
+                        "An error occurred while processing the request.";
+                });
+        }
+    </script>
+</body>
+</html>
